@@ -1,6 +1,3 @@
-/* login.cgi
-   Simple C Backend Login System using CGI
-*/
 
 #include <stdio.h>
 #include <stdlib.h>
