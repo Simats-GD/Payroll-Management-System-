@@ -1,0 +1,60 @@
+/* login.cgi
+   Simple C Backend Login System using CGI
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void get_value(char *data, const char *key, char *value) {
+    char *start = strstr(data, key);
+
+    if (start != NULL) {
+        start += strlen(key);
+
+        int i = 0;
+        while (*start != '&' && *start != '\0') {
+            value[i++] = *start;
+            start++;
+        }
+        value[i] = '\0';
+    }
+}
+
+int main() {
+
+    char *data;
+    char username[100] = "";
+    char password[100] = "";
+
+    data = getenv("QUERY_STRING");
+
+    if (data != NULL) {
+
+        get_value(data, "username=", username);
+        get_value(data, "password=", password);
+
+        printf("Content-type:text/html\n\n");
+
+        printf("<html>");
+        printf("<head><title>Login Result</title></head>");
+        printf("<body>");
+
+        if (strcmp(username, "admin") == 0 &&
+            strcmp(password, "1234") == 0) {
+
+            printf("<h1>Login Successful</h1>");
+            printf("<p>Welcome %s</p>", username);
+
+        } else {
+
+            printf("<h1>Login Failed</h1>");
+            printf("<p>Invalid Username or Password</p>");
+        }
+
+        printf("</body>");
+        printf("</html>");
+    }
+
+    return 0;
+}
