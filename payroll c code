@@ -1,0 +1,276 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Employee
+{
+    int id;
+    char name[50];
+    float basicSalary;
+    float allowance;
+    float deduction;
+    float netSalary;
+};
+
+void login();
+void menu();
+void addEmployee();
+void displayEmployees();
+void calculateSalary();
+void generatePayslip();
+
+FILE *fp;
+
+int main()
+{
+    login();
+    return 0;
+}
+
+void login()
+{
+    char username[20];
+    char password[20];
+
+    printf("\n====================================");
+    printf("\n PAYROLL MANAGEMENT SYSTEM ");
+    printf("\n====================================");
+
+    printf("\n\nEnter Username: ");
+    scanf("%s", username);
+
+    printf("Enter Password: ");
+    scanf("%s", password);
+
+    if(strcmp(username, "admin") == 0 &&
+       strcmp(password, "1234") == 0)
+    {
+        printf("\n\nLogin Successful!\n");
+        menu();
+    }
+    else
+    {
+        printf("\nInvalid Username or Password!\n");
+    }
+}
+
+void menu()
+{
+    int choice;
+
+    while(1)
+    {
+        printf("\n====================================");
+        printf("\n PAYROLL MANAGEMENT MENU ");
+        printf("\n====================================");
+
+        printf("\n1. Add Employee");
+        printf("\n2. Display Employees");
+        printf("\n3. Calculate Salary");
+        printf("\n4. Generate Payslip");
+        printf("\n5. Exit");
+
+        printf("\n\nEnter Choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                addEmployee();
+                break;
+
+            case 2:
+                displayEmployees();
+                break;
+
+            case 3:
+                calculateSalary();
+                break;
+
+            case 4:
+                generatePayslip();
+                break;
+
+            case 5:
+                printf("\nThank You!\n");
+                exit(0);
+
+            default:
+                printf("\nInvalid Choice!\n");
+        }
+    }
+}
+
+void addEmployee()
+{
+    struct Employee emp;
+
+    fp = fopen("employee.txt", "ab");
+
+    if(fp == NULL)
+    {
+        printf("\nFile Error!");
+        return;
+    }
+
+    printf("\nEnter Employee ID: ");
+    scanf("%d", &emp.id);
+
+    printf("Enter Employee Name: ");
+    scanf("%s", emp.name);
+
+    printf("Enter Basic Salary: ");
+    scanf("%f", &emp.basicSalary);
+
+    printf("Enter Allowance: ");
+    scanf("%f", &emp.allowance);
+
+    printf("Enter Deduction: ");
+    scanf("%f", &emp.deduction);
+
+    emp.netSalary =
+        emp.basicSalary +
+        emp.allowance -
+        emp.deduction;
+
+    fwrite(&emp, sizeof(emp), 1, fp);
+
+    fclose(fp);
+
+    printf("\nEmployee Added Successfully!\n");
+}
+
+void displayEmployees()
+{
+    struct Employee emp;
+
+    fp = fopen("employee.txt", "rb");
+
+    if(fp == NULL)
+    {
+        printf("\nNo Records Found!\n");
+        return;
+    }
+
+    printf("\n====================================");
+    printf("\n EMPLOYEE RECORDS ");
+    printf("\n====================================");
+
+    while(fread(&emp, sizeof(emp), 1, fp))
+    {
+        printf("\n\nEmployee ID     : %d", emp.id);
+        printf("\nEmployee Name   : %s", emp.name);
+        printf("\nBasic Salary    : %.2f", emp.basicSalary);
+        printf("\nAllowance       : %.2f", emp.allowance);
+        printf("\nDeduction       : %.2f", emp.deduction);
+        printf("\nNet Salary      : %.2f", emp.netSalary);
+    }
+
+    fclose(fp);
+}
+
+void calculateSalary()
+{
+    struct Employee emp;
+    int id, found = 0;
+
+    fp = fopen("employee.txt", "rb");
+
+    if(fp == NULL)
+    {
+        printf("\nNo Records Found!\n");
+        return;
+    }
+
+    printf("\nEnter Employee ID: ");
+    scanf("%d", &id);
+
+    while(fread(&emp, sizeof(emp), 1, fp))
+    {
+        if(emp.id == id)
+        {
+            found = 1;
+
+            printf("\n====================================");
+            printf("\n SALARY DETAILS ");
+            printf("\n====================================");
+
+            printf("\nEmployee Name : %s", emp.name);
+            printf("\nBasic Salary  : %.2f", emp.basicSalary);
+            printf("\nAllowance     : %.2f", emp.allowance);
+            printf("\nDeduction     : %.2f", emp.deduction);
+
+            emp.netSalary =
+                emp.basicSalary +
+                emp.allowance -
+                emp.deduction;
+
+            printf("\nNet Salary    : %.2f",
+                   emp.netSalary);
+        }
+    }
+
+    fclose(fp);
+
+    if(found == 0)
+    {
+        printf("\nEmployee Not Found!\n");
+    }
+}
+
+void generatePayslip()
+{
+    struct Employee emp;
+    int id, found = 0;
+
+    fp = fopen("employee.txt", "rb");
+
+    if(fp == NULL)
+    {
+        printf("\nNo Records Found!\n");
+        return;
+    }
+
+    printf("\nEnter Employee ID: ");
+    scanf("%d", &id);
+
+    while(fread(&emp, sizeof(emp), 1, fp))
+    {
+        if(emp.id == id)
+        {
+            found = 1;
+
+            printf("\n====================================");
+            printf("\n PAYSLIP ");
+            printf("\n====================================");
+
+            printf("\nEmployee ID    : %d", emp.id);
+            printf("\nEmployee Name  : %s", emp.name);
+
+            printf("\n------------------------------------");
+
+            printf("\nBasic Salary   : %.2f",
+                   emp.basicSalary);
+
+            printf("\nAllowance      : %.2f",
+                   emp.allowance);
+
+            printf("\nDeduction      : %.2f",
+                   emp.deduction);
+
+            printf("\n------------------------------------");
+
+            printf("\nNet Salary     : %.2f",
+                   emp.netSalary);
+
+            printf("\n====================================\n");
+        }
+    }
+
+    fclose(fp);
+
+    if(found == 0)
+    {
+        printf("\nEmployee Not Found!\n");
+    }
+}
