@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Login</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+        }
+
+        .login-container{
+            width:350px;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .login-container h2{
+            text-align:center;
+            margin-bottom:20px;
+            color:#333;
+        }
+
+        .input-box{
+            margin-bottom:15px;
+        }
+
+        .input-box label{
+            display:block;
+            margin-bottom:5px;
+            color:#555;
+        }
+
+        .input-box input{
+            width:100%;
+            padding:10px;
+            border:1px solid #ccc;
+            border-radius:5px;
+            outline:none;
+        }
+
+        .input-box input:focus{
+            border-color:#4facfe;
+        }
+
+        .remember{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:15px;
+            font-size:14px;
+        }
+
+        .remember a{
+            text-decoration:none;
+            color:#007BFF;
+        }
+
+        .btn{
+            width:100%;
+            padding:10px;
+            border:none;
+            background:#4facfe;
+            color:white;
+            font-size:16px;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .btn:hover{
+            background:#007BFF;
+        }
+
+        .signup{
+            text-align:center;
+            margin-top:15px;
+            font-size:14px;
+        }
+
+        .signup a{
+            color:#007BFF;
+            text-decoration:none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Payroll Login</h2>
+
+        <form>
+            <div class="input-box">
+                <label>Email</label>
+                <input type="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="input-box">
+                <label>Password</label>
+                <input type="password" placeholder="Enter password" required>
+            </div>
+
+            <div class="remember">
+                <label>
+                    <input type="checkbox"> Remember me
+                </label>
+
+                <a href="#">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+
+            <div class="signup">
+                Don't have an account?
+                <a href="#">Register</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
